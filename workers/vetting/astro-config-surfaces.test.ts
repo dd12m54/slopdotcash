@@ -21,16 +21,17 @@ test("an Astro config is an install surface", () => {
     "astro.config.mjs",
     "astro.config.js",
     "astro.config.ts",
+    "astro.config.cjs",
     "packages/app/astro.config.mts",
+    "packages/app/astro.config.cts",
   ]) {
     expect({ path, surfaces: surfacesOf(path) }).toEqual({
       path,
       surfaces: ["installScripts", "source"],
     });
   }
-  // The `.cjs` spelling is not one of them: the loader's lookup list
-  // does not contain it, so it stays source alone.
-  expect(surfacesOf("astro.config.cjs")).toEqual(["source"]);
+  // A name the loader never looks up stays source alone.
+  expect(surfacesOf("astro.config.json")).toEqual(["source"]);
   // A payload in it carries the install coverage the surface brings:
   const inspection = inspected("astro.config.mjs", `// ${PAYLOAD}\n`);
   expect(inspection.coverage.installScripts).toEqual({

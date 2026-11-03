@@ -218,10 +218,11 @@ const ANT_BUILD_XML = /(?:^|\/)build\.xml$/iu;
  * Astro loads `astro.config.<ext>` by evaluating it as code on every
  * build and dev run, in each of the spellings its config loader looks
  * up, so the file is build-time code like a Makefile, never parsed
- * configuration. The `.cjs` and `.cts` spellings stay out: the loader's
- * lookup list does not contain them.
+ * configuration. The `.cjs` and `.cts` spellings are in the lookup
+ * list through Astro 5 (Astro 6 dropped them), and the scanner admits
+ * projects on those versions too, so they stay in.
  */
-const ASTRO_CONFIG = /^astro\.config\.(?:js|mjs|ts|mts)$/u;
+const ASTRO_CONFIG = /^astro\.config\.(?:js|mjs|cjs|ts|mts|cts)$/u;
 /** node-gyp loads these directly; other names are install scripts only via `includes`. */
 const GYP_SOURCE = new RegExp(String.raw`\.(?:${GYP_EXTENSION})$`, "iu");
 const SOURCE_EXTENSIONS =
